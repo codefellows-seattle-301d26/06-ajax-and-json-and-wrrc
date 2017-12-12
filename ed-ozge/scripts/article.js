@@ -58,7 +58,10 @@ Article.fetchAll = () => {
     Article.loadAll();
   } else {
     console.log('data');
-    $.getJSON('/data/hackerIpsum.json').then(data => console.log(data));
-
+    // $.getJSON('/data/hackerIpsum.json').then(data => console.log(data))
+    $.getJSON('/data/hackerIpsum.json')
+    // .then(data => console.log(data));
+      // .then(localStorage.setItem('rawData', JSON.stringify('data')));
+      .then(data => localStorage.setItem('rawData', JSON.stringify(data)));
   }
 };
