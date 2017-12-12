@@ -45,7 +45,7 @@ Article.loadAll = rawData => {
 Article.fetchAll = () => {
   // REVIEW: What is this 'if' statement checking for? Where was the rawData set to local storage?
   if (localStorage.rawData) {
-
+    console.log('loading articles from local storage')
     Article.loadAll(JSON.parse(localStorage.rawData));
 
   } else {
@@ -53,9 +53,10 @@ Article.fetchAll = () => {
       .then(data => {
         console.log('original data from H I JSON',data);
         //store data read from file into local storage, since it is JSON format we could put it directly into local storage.
-        localStorage.rawData = data;
+        localStorage.rawData = JSON.stringify(data);
         console.log(localStorage.rawData);
-        Article.loadAll(JSON.parse(data));
+
+        Article.loadAll(data);
       });
   }
 }
