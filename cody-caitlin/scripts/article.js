@@ -13,7 +13,7 @@ function Article (rawDataObj) {
 Article.all = [];
 
 // COMMENT: Why isn't this method written as an arrow function?
-// PUT YOUR RESPONSE HERE
+// arrow functions cant be used were there are 'this'.
 Article.prototype.toHtml = function() {
   let template = Handlebars.compile($('#article-template').text());
 
@@ -21,7 +21,7 @@ Article.prototype.toHtml = function() {
 
   // COMMENT: What is going on in the line below? What do the question mark and colon represent? How have we seen this same logic represented previously?
   // Not sure? Check the docs!
-  // PUT YOUR RESPONSE HERE
+  // This is a ternary function.
   this.publishStatus = this.publishedOn ? `published ${this.daysAgo} days ago` : '(draft)';
   this.body = marked(this.body);
 
@@ -33,8 +33,10 @@ Article.prototype.toHtml = function() {
 // REVIEW: This function will take the rawData, how ever it is provided, and use it to instantiate all the articles. This code is moved from elsewhere, and encapsulated in a simply-named function for clarity.
 
 // COMMENT: Where is this function called? What does 'rawData' represent now? How is this different from previous labs?
-// PUT YOUR RESPONSE HERE
+// This function is called in the Article.fetchAll function. rawData is hackerlpsum.json.
 Article.loadAll = rawData => {
+
+  
   rawData.sort((a,b) => (new Date(b.publishedOn)) - (new Date(a.publishedOn)))
 
   rawData.forEach(articleObject => Article.all.push(new Article(articleObject)))
@@ -43,11 +45,41 @@ Article.loadAll = rawData => {
 // REVIEW: This function will retrieve the data from either a local or remote source, and process it, then hand off control to the View.
 Article.fetchAll = () => {
   // REVIEW: What is this 'if' statement checking for? Where was the rawData set to local storage?
+  // on articleView.js : $('#article-json').val(`${JSON.stringify(article)},
   if (localStorage.rawData) {
 
-    Article.loadAll();
 
-  } else {
+    Article.loadAll(JSON.parse(localStorage.rawData));
+    console.log('data', localStorage.rawData);
+    articleView.initIndexPage();
+
+  }
+  //To Do complete statemen
+  else {
+
+    $.ajax({
+      url: '../vendor/data/hackerIpsum.json',
+      method: 'GET',
+      success: function (data) {
+        data.loadAll(data);
+        console.log('JSON Data:',data);
+      }
+    })
+
+      .then(
+
+        function (data){
+
+          localStorage.setItem('rawData', JSON.stringify(data));
+          console.log('data', rawData);
+          Article.fetchAll();
+        }
+
+      )
+   
+    // Article.fetchAll();
+
+    
 
   }
 }
