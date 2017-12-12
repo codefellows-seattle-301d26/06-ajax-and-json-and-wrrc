@@ -60,3 +60,5 @@ Article.fetchAll = () => {
       });
   }
 }
+
+Article.fetchAll();
