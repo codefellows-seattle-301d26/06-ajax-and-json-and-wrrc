@@ -11,6 +11,8 @@ function Article (rawDataObj) {
 
 // REVIEW: Instead of a global `articles = []` array, let's attach this list of all articles directly to the constructor function. Note: it is NOT on the prototype. In JavaScript, functions are themselves objects, which means we can add properties/values to them at any time. In this case, the array relates to ALL of the Article objects, so it does not belong on the prototype, as that would only be relevant to a single instantiated Article.
 Article.all = [];
+let newData = []; 
+
 
 // COMMENT: Why isn't this method written as an arrow function?
 // This is not an arrow function because it contains the "this" keyword which is scoped globally in arrow functions. 
@@ -35,19 +37,27 @@ Article.prototype.toHtml = function() {
 // COMMENT: Where is this function called? What does 'rawData' represent now? How is this different from previous labs?
 // This function is called at the bottom of this js file inside of Article.fetchAll. The rawData now represents our AJAX file/JASON data file. In previous labs we used a js file that contained all the objects. 
 Article.loadAll = rawData => {
+  
   rawData.sort((a,b) => (new Date(b.publishedOn)) - (new Date(a.publishedOn)))
 
   rawData.forEach(articleObject => Article.all.push(new Article(articleObject)))
 }
 
 // REVIEW: This function will retrieve the data from either a local or remote source, and process it, then hand off control to the View.
-Article.fetchAll = () => {
+Article.fetchAll = function () {
   // REVIEW: What is this 'if' statement checking for? Where was the rawData set to local storage?
   if (localStorage.rawData) {
-
-    Article.loadAll();
-
+    Article.loadAll(JSON.parse(localStorage.rawData));
+    
   } else {
+    $.getJSON('data/hackerIpsum.json').then(data => {
+      newData = data;
+      localStorage.rawData = JSON.stringify(data)})
+    Article.loadAll(JSON.parse(localStorage.rawData))
+   
 
   }
+  articleView.initIndexPage();
 }
+
+
