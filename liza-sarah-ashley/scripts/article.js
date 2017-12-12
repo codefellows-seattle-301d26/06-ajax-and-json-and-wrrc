@@ -52,3 +52,4 @@ Article.fetchAll = () => {
 
   }
 }
+Article.fetchAll();
