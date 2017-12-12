@@ -13,9 +13,10 @@ Open the page.
 We use JS, HTML, CSS, JQuery, Handlebars, AJAX
 
 ## Change Log
-<!-- Use this are to document the iterative changes made to your application as each feature is successfully implemented. Use time stamps. Here's an examples:
 
 12-12-2017 9:16am - Set up stuff
+12-12-2017 9:45am - made bugs
+12-12-2017 10:15am - fixed bugs
 
 ## Credits and Collaborations
 CodeFellows
