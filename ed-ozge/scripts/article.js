@@ -46,6 +46,7 @@ Article.loadAll = rawData => {
   rawData.sort((a,b) => (new Date(b.publishedOn)) - (new Date(a.publishedOn)));
 
   rawData.forEach(articleObject => Article.all.push(new Article(articleObject)));
+  console.log('load all');
 };
 
 // REVIEW: This function will retrieve the data from either a local or remote source,
@@ -55,13 +56,15 @@ Article.fetchAll = () => {
   //IF statement checking for if localStorage has data.IF it has data loads Articles
   console.log('data');
   if (localStorage.rawData) {
-    Article.loadAll();
+    Article.loadAll(JSON.parse(localStorage.rawData));
+    console.log('parse');
   } else {
-    console.log('data');
+    console.log('get');
     // $.getJSON('/data/hackerIpsum.json').then(data => console.log(data))
-    $.getJSON('/data/hackerIpsum.json')
+    $.getJSON('/data/hackerIpsum.json').then(data => localStorage.setItem('rawData', JSON.stringify(data)));
     // .then(data => console.log(data));
-      // .then(localStorage.setItem('rawData', JSON.stringify('data')));
-      .then(data => localStorage.setItem('rawData', JSON.stringify(data)));
+    // .then(localStorage.setItem('rawData', JSON.stringify('data')));
+
   }
+  articleView.initIndexPage();
 };
