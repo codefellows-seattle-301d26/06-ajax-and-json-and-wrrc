@@ -11,6 +11,7 @@ function Article (rawDataObj) {
 
 // REVIEW: Instead of a global `articles = []` array, let's attach this list of all articles directly to the constructor function. Note: it is NOT on the prototype. In JavaScript, functions are themselves objects, which means we can add properties/values to them at any time. In this case, the array relates to ALL of the Article objects, so it does not belong on the prototype, as that would only be relevant to a single instantiated Article.
 Article.all = [];
+rawData = [];
 
 // COMMENT: Why isn't this method written as an arrow function?
 // This is not an arrow function because it contains the "this" keyword which is scoped globally in arrow functions. 
@@ -42,12 +43,18 @@ Article.loadAll = rawData => {
 
 // REVIEW: This function will retrieve the data from either a local or remote source, and process it, then hand off control to the View.
 Article.fetchAll = () => {
+ // $.getJSON('data/hackerIpsum.json').then(data => rawData = data)
   // REVIEW: What is this 'if' statement checking for? Where was the rawData set to local storage?
   if (localStorage.rawData) {
-
+    Article.all.push(rawData)
     Article.loadAll();
 
   } else {
+    $.getJSON('data/hackerIpsum.json').then(data => rawData = data)
+    Article.all.push(rawData)
+    Article.loadAll();
+    console.log('else, but rawData?', rawData)
+    console.log('else what data', data)
 
   }
 }
