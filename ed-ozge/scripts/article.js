@@ -56,7 +56,6 @@ Article.fetchAll = () => {
   if (localStorage.rawData) {
     Article.loadAll(JSON.parse(localStorage.rawData));
   } else {
-    // $.getJSON('/data/hackerIpsum.json').then(data => console.log(data))
     $.getJSON('/data/hackerIpsum.json').then(data => localStorage.setItem('rawData', JSON.stringify(data)));
     // .then(data => console.log(data));
     // .then(localStorage.setItem('rawData', JSON.stringify('data')));
