@@ -1,12 +1,16 @@
 {
   "globals": {
-    "rawData": true,
-    "app": true,
-    "Handlebars": true,
-    "page": true,
-    "$": true,
-    "marked": true,
-    "hljs": true
+   "rawData": true,
+   "Article": true,
+   "articleView": true,
+   "app": true,
+   "Handlebars": true,
+   "page": true,
+   "$": true,
+   "marked": true,
+   "hljs": true
+ },
+
   },
   "extends": "eslint:recommended",
   "parserOptions": {
